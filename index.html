@@ -248,7 +248,23 @@ body{font-family:'Cormorant Garamond','Playfair Display',serif;background:linear
     msg.classList.toggle('show',out);
     if(out)confetti(40);
   });
-
+  
+  // Happy Birthday theme song (plays when the envelope is tapped)
+  var SONG_URL=''; // optional: put your own song file (URL or data:audio/... string) here to replace the built-in melody
+  var songAudio=null,songGain=null;
+  function playSong(){
+    if(SONG_URL){songAudio=new Audio(SONG_URL);songAudio.play().catch(function(){});return}
+    if(!initAudio())return;
+    songGain=ctx.createGain();songGain.connect(ctx.destination);
+    var b=.45,t=ctx.currentTime+.6,
+    L=[[392,.75],[392,.25],[440,1],[392,1],[523,1],[494,2],[392,.75],[392,.25],[440,1],[392,1],[587,1],[523,2],[392,.75],[392,.25],[784,1],[659,1],[523,1],[494,1],[440,2],[698,.75],[698,.25],[659,1],[523,1],[587,1],[523,2]];
+    L.forEach(function(n){var d=n[1]*b;tone(t,n[0],n[0],d+.25,.24,songGain);tone(t,n[0]*2,n[0]*2,d*.7,.05,songGain);t+=d});
+  }
+  function stopSong(){
+    if(songGain){songGain.gain.setTargetAtTime(0,ctx.currentTime,.15);songGain=null}
+    if(songAudio){songAudio.pause();songAudio=null}
+  }
+  
   // Photo
   $('photoInput').addEventListener('change',function(e){
     var f=e.target.files&&e.target.files[0];
