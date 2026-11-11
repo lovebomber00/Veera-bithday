@@ -184,10 +184,14 @@ body{font-family:'Cormorant Garamond','Playfair Display',serif;background:linear
 <section class="section-letter" id="sectionLetter">
   <div class="letter-paper" id="letterPaper">
     <label class="polaroid" for="photoInput" title="Tap to add a photo">
-      <div class="photo-area" id="photoArea"><img id="photoImg" alt="Veera"><div class="ph"><b>📷</b>TAP TO ADD<br>YOUR PHOTO</div></div>
+      <div class="photo-area has" id="photoArea"><img id="photoImg" alt="Veera" src="https://www.dropbox.com/scl/fi/r226lgurrxsfgo7r5c7wr/file_00000000025c8212916f06185d35b24a.png?rlkey=wp889kqgj4ertwrtjunefz98h&amp;st=ksh4spb6&amp;dl=1"><div class="ph"><b>📷</b>TAP TO ADD<br>YOUR PHOTO</div></div>
       <span class="photo-cap">Veera 🎂</span><span class="pheart">💖</span>
     </label>
     <input type="file" id="photoInput" accept="image/*" hidden>
+    <audio id="song" controls playsinline preload="metadata" style="position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(320px,92vw);z-index:9999;border-radius:14px;">
+      <source src="https://www.dropbox.com/scl/fi/e3ds1wv0xwgy5945o1o1m/38-Michael-Riepen-Happy-Birthday-chosic.com.mp3?rlkey=5m0uwfypfxnq21dzj795kzidc&amp;st=6bx1ryf1&amp;raw=1" type="audio/mpeg">
+      Your browser does not support audio playback.
+    </audio>
     <div class="letter-date">On Your Special Day 🎂</div>
     <div class="letter-dear">Dear Veera,</div>
     <div class="letter-body">
@@ -232,6 +236,8 @@ body{font-family:'Cormorant Garamond','Playfair Display',serif;background:linear
   var env=$('envelope'),hint=$('hint'),scrollHint=$('scrollHint');
   env.addEventListener('click',function(){
     var open=env.classList.toggle('flipped');
+    var song=$('song');
+    if(song){if(open){song.play().catch(function(){})}else{song.pause()}}
     hint.style.opacity=open?0:1;
     if(open){
       confetti(60);
@@ -248,30 +254,14 @@ body{font-family:'Cormorant Garamond','Playfair Display',serif;background:linear
     msg.classList.toggle('show',out);
     if(out)confetti(40);
   });
-  
-  // Happy Birthday theme song (plays when the envelope is tapped)
-  var SONG_URL='https://www.dropbox.com/scl/fi/e3ds1wv0xwgy5945o1o1m/38-Michael-Riepen-Happy-Birthday-chosic.com.mp3?rlkey=5m0uwfypfxnq21dzj795kzidc&st=g6w3ozl2&dl=1'; // optional: put your own song file (URL or data:audio/... string) here to replace the built-in melody
-  var songAudio=null,songGain=null;
-  function playSong(){
-    if(SONG_URL){songAudio=new Audio(SONG_URL);songAudio.play().catch(function(){});return}
-    if(!initAudio())return;
-    songGain=ctx.createGain();songGain.connect(ctx.destination);
-    var b=.45,t=ctx.currentTime+.6,
-    L=[[392,.75],[392,.25],[440,1],[392,1],[523,1],[494,2],[392,.75],[392,.25],[440,1],[392,1],[587,1],[523,2],[392,.75],[392,.25],[784,1],[659,1],[523,1],[494,1],[440,2],[698,.75],[698,.25],[659,1],[523,1],[587,1],[523,2]];
-    L.forEach(function(n){var d=n[1]*b;tone(t,n[0],n[0],d+.25,.24,songGain);tone(t,n[0]*2,n[0]*2,d*.7,.05,songGain);t+=d});
-  }
-  function stopSong(){
-    if(songGain){songGain.gain.setTargetAtTime(0,ctx.currentTime,.15);songGain=null}
-    if(songAudio){songAudio.pause();songAudio=null}
-  }
-  
+
   // Photo
   $('photoInput').addEventListener('change',function(e){
     var f=e.target.files&&e.target.files[0];
     if(!f)return;
     var r=new FileReader();
     r.onload=function(){
-      $('photoImg').src=https://www.dropbox.com/scl/fi/r226lgurrxsfgo7r5c7wr/file_00000000025c8212916f06185d35b24a.png?rlkey=wp889kqgj4ertwrtjunefz98h&st=zj6195fs&dl=1.result;
+      $('photoImg').src=r.result;
       $('photoArea').classList.add('has');
     };
     r.readAsDataURL(f);
