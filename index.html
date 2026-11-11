@@ -250,7 +250,7 @@ body{font-family:'Cormorant Garamond','Playfair Display',serif;background:linear
   });
   
   // Happy Birthday theme song (plays when the envelope is tapped)
-  var SONG_URL=''; // optional: put your own song file (URL or data:audio/... string) here to replace the built-in melody
+  var SONG_URL='https://www.dropbox.com/scl/fi/e3ds1wv0xwgy5945o1o1m/38-Michael-Riepen-Happy-Birthday-chosic.com.mp3?rlkey=5m0uwfypfxnq21dzj795kzidc&st=g6w3ozl2&dl=1'; // optional: put your own song file (URL or data:audio/... string) here to replace the built-in melody
   var songAudio=null,songGain=null;
   function playSong(){
     if(SONG_URL){songAudio=new Audio(SONG_URL);songAudio.play().catch(function(){});return}
@@ -271,7 +271,7 @@ body{font-family:'Cormorant Garamond','Playfair Display',serif;background:linear
     if(!f)return;
     var r=new FileReader();
     r.onload=function(){
-      $('photoImg').src=r.result;
+      $('photoImg').src=https://www.dropbox.com/scl/fi/r226lgurrxsfgo7r5c7wr/file_00000000025c8212916f06185d35b24a.png?rlkey=wp889kqgj4ertwrtjunefz98h&st=zj6195fs&dl=1.result;
       $('photoArea').classList.add('has');
     };
     r.readAsDataURL(f);
